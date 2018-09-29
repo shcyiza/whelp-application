@@ -1,17 +1,14 @@
-<template>
-
-</template>
-
 <script>
 export default {
-  name: 'HelloCountries',
-  props: {
-    msg: String
-  }
+  name: 'HelloCountries'
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<template>
+    <h1>Search Countries</h1>
+</template>
+
+
 <style scoped>
 
 </style>

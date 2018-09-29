@@ -1,8 +1,19 @@
+<script>
+export default {
+  name: 'app',
+  created () {
+    this.$store.dispatch('fetchCountries')
+  }
+}
+</script>
+
+
 <template>
   <div id="app">
     <div id="nav">
       <router-link to="/">Whole World</router-link> |
-      <router-link to="/Eu">Eu</router-link>
+      <router-link to="/eu">Eu</router-link> |
+      <router-link to="/search">search</router-link>
     </div>
     <router-view/>
   </div>
