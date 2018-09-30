@@ -15,7 +15,7 @@ import router from './router'
 /*
 this file load VUEX
 the official state management library for Vue
-this enable use to load all the data once
+this enables me to load all the data once
 see file src/store/index.js for more comments
 */
 import store from './store/index'

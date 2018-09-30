@@ -3,8 +3,8 @@ https://vuex.vuejs.org
 I used Vuex cause the data we are working with are not updated very often
 so i thought it was a good idea to load it just once
 with the API endpoint calling all the countries
-caching it in the store handle the rest here
-instaed of calling'/regions/eu' everytime the EU tab gets clicked
+caching it in the store and handle the rest in at the clients
+instaed of calling'/regions/eu' everytime the EU pages gets requested
 it also gives the capability to work offline once loaded
 */
 import Vue from 'vue'
