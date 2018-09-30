@@ -1,4 +1,10 @@
 <script>
+/*
+here is the vue component nesting all the other
+this component handles the navbar
+and the render of the other components with the router vieuw
+see /src/router.js file to see components called
+*/
 export default {
   name: 'app',
   computed: {
@@ -7,6 +13,9 @@ export default {
     }
   },
   created () {
+    // here is where we call our VUEX action to call all the countries
+    // the only API call of the whole app lifecycle
+    // see src/store/index.js for more comments
     this.$store.dispatch('fetchCountries')
   }
 }

@@ -1,5 +1,8 @@
 <script>
-import Paginator from './Paginator'
+//the component redering search results
+
+// paginator hadle the render of the countries given in list and paginates them
+import Paginator from './paginator/PaginatorBase'
 
 export default {
   name: 'SearchCountries',
@@ -20,7 +23,7 @@ export default {
 </script>
 
 <template>
-    <div>
+  <div>
     <h1>Search Countries</h1>
     <div class="columns">
       <div class="column is-1 icon">
@@ -30,12 +33,17 @@ export default {
       </div>
       <div class="column is-11">
         <br>
-        <input v-model="query" class="input" type="text" placeholder="type 'Bel'">
+        <input v-model="query" class="input" type="text" placeholder="type 'Bel' to find Belgium and Belarus">
       </div>
     </div>
     <hr>
+
+    <!--
+    placeholder when no query 
+    to give instruction and avoid akwardly empty pages
+    -->
     <div class="placeholder"
-    v-if="countries.length === 0"
+    v-if="query.length < 2 && countries.length === 0"
     >
       <i class="material-icons">
         public
@@ -43,8 +51,28 @@ export default {
       <br>
       Look for any country by it's name
     </div>
-    <paginator :list="countries" relatifPath="/search"></paginator>
+
+    <!--
+    placeholder when no result for query 
+    to give instruction
+    -->
+    <div class="placeholder"
+    v-if="query.length > 2 &&countries.length === 0"
+    >
+      <i class="material-icons">
+        sentiment_dissatisfied
+      </i>
+      <br>
+      No results found for "{{query}}"
+      <br> Try Something else
     </div>
+
+    <!--
+    passing the search results as props to handle render
+    and the path of the component to handle pagenation
+    -->
+    <paginator :list="countries" relatifPath="/search"></paginator>
+  </div>
 </template>
 
 

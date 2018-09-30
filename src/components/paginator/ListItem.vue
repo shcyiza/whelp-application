@@ -3,23 +3,32 @@ export default {
     name: "ListItem",
     data() {
         return {
-            gMapsKey: ''
+            gMapsKey: 'AIzaSyAvb2OQWipY6XeXhNeHRSgFl5xT-_Z8_rg'
         }
     },
     props:{
-        // list given by the paginatorBase component
+        // country given by the paginatorBase parent component
         country:{
             type: Object,
             required:true
         },
+        // index country of given
         i: {
             type: Number,
             required:true
         }
     },
     computed: {
-        staticMapImg() {
-
+        staticMapLink() {
+            const urlName = this.country.name.replace(" ", "+")
+            const link = ("https://maps.googleapis.com/maps/api/staticmap?"
+                + "key=" + this.gMapsKey
+                + "&center=" + urlName
+                + "&zoom=3&scale=1&size=300x300&maptype=hybrid&format=png&visual_refresh=true"
+                + "&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C"
+                + urlName
+            )
+            return link        
         },
     },
     methods:{
@@ -49,7 +58,7 @@ export default {
     </div>
     <modal
             :name="'modal' + i"
-            :resizable="true"
+            width="700px" height="500px"
     >
         <div class="modals">
             <div class="title">
@@ -58,29 +67,35 @@ export default {
                 ></a>
                 {{country.name}}
             </div>
-            <div class="columns is-multiline">
+            <div class="columns is-gapless">
                 <div class="column is-half">
                     <img class="flag" :src="country.flag">
+                    <hr>
+                    <div class="columns">
+                        <div class="column is-one-half data-name">
+                            Apha2 code:
+                            <br>
+                            Capital city:
+                            <br>
+                            Region:
+                            <br>
+                            Population:
+                            <br>
+                        </div>
+                        <div class="column is-one-half">
+                            {{country.alpha2Code}}
+                            <br>
+                            {{country.capital}}
+                            <br>
+                            {{country.region}}
+                            <br>
+                            {{country.population.toLocaleString('be')}}
+                            <br>
+                        </div>
+                    </div>
                 </div>
-                <div class="column is-one-quarter data-name">
-                    Apha2 code:
-                    <br>
-                    Capital city:
-                    <br>
-                    Region:
-                    <br>
-                    Population:
-                    <br>
-                </div>
-                <div class="column is-one-quarter">
-                    {{country.alpha2Code}}
-                    <br>
-                    {{country.capital}}
-                    <br>
-                    {{country.region}}
-                    <br>
-                    {{country.population.toLocaleString('be')}}
-                    <br>
+                <div class="column is-half">
+                    <img class="map" :src="staticMapLink">
                 </div>
             </div>
             <br>

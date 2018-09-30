@@ -1,75 +1,88 @@
 <script>
+import ListItem from './ListItem'
 export default {
-    name: "Paginator",
+    /*
+    this is a child component that handle the render
+    and the pagination of the a given list of countries
+     */
+    name: "PaginatorBase",
+    components: {
+        ListItem,
+    },
     props:{
+        // list given by the parent component
         list:{
         type:Array,
         required:true
         },
-        sizePerPage:{
+
+        // countries per page
+        pageSize:{
             type:Number,
             required:false,
             default: 16
         },
+
+        // relative path of parent component
+        // so pagination links routes to the right place
         relatifPath:{
             type: String,
             required:true
         }
     },
     computed: {
+        // all the computed properties to handle pagination
         current() {
+            // the current page is given in the url so user can go back
+            // to any pages and still have the correct data displayed
             return this.$route.query.currentPage
         },
         pageNumber() {
             let final_result = 0 // what will be return, it's the page number
-            let block_result = isNaN()
+            let block_result = isNaN() // our intermediary data
 
             // here we check if the query param 'curentPage' is valid
             if (this.current !== undefined && this.current >= 0) {
-                // final_result stays 0 if no query param or if query param lower then 0
+                // final_result stays 0 if no 'curentPage' or if its lower then 0
                 if (this.pageArray[this.pageCount - 1] >= this.current) {
-                // final_result stays 0 if query param has reached max
-                // doloopback effect
+                // final_result stays 0 if 'curentPage' has reached max
+                // loopback effect
                     block_result = Number(this.current)   
                 }
             }
             
             if (block_result !== isNaN()) {
-                // check if block_result go converted into valid number
-                // final_result changes cause query params is valide
+                // check if block_result got converted into valid number
+                // final_result changes if its the case
                 final_result = block_result
             }
             
             return final_result // it's retrun as promised
         },
         pageCount() {
-            let l = this.list.length,
-                s = this.sizePerPage;
-
-            return Math.ceil(l/s);
+            /*
+            Math.ceil is to make a new page
+            if the list/pageSize ratio is not round
+            exemple 2.001 ratio return 3
+            so all the data get rendered
+            */
+            return Math.ceil(this.list.length/this.pageSize);
         },
         paginatedList() {
-            const   start = this.pageNumber * this.sizePerPage,
-                    end = start + this.sizePerPage;
+            // slice the list given by the parent according to page number
+            const   start = this.pageNumber * this.pageSize,
+                    end = start + this.pageSize;
 
             return this.list.slice(start, end);
         },
         pageArray() {
             let i = 0,
                 arr = []
-            for (i ; i < this.pageCount; i++) { 
+            for (i ; i < this.pageCount; i++) {
                 i
                 arr.push(i)
             }
             return arr
-        }
-    },
-    methods:{
-        openModal(i) {
-            this.$modal.show('modal' + i);
-        },
-        hideModal (i) {
-            this.$modal.hide('modal' + i);
         }
     }
 }
@@ -79,64 +92,22 @@ export default {
     <div>
 
         <div class="countries columns is-multiline is-gapless">
-            <div class="column is-one-quarter"
-            v-for="(country, i) in paginatedList" v-bind:key="i"
-            >
-                <div class="country"
-                @click="openModal(i)"
-                >
-                    <img class="flag" :src="country.flag">
-                    <br>
-                    <b class="name">{{country.name}}</b>
-                    <br>
-                    <b>Capital city:</b> {{country.capital}}
-                    <br>
-                    <b>Apha2 code:</b> {{country.alpha2Code}}
-                </div>
-                <modal
-                :name="'modal' + i"
-                :resizable="true"
-                >
-                    <div class="modals">
-                        <div class="title">
-                            <a class="delete is-large is-pulled-right"
-                            @click="hideModal(i)"
-                            ></a>
-                            {{country.name}}
-                        </div>
-                        <div class="columns">
-                            <div class="column is-half">
-                                <img class="flag" :src="country.flag">
-                            </div>
-                            <div class="column is-one-quarter data-name">
-                                Apha2 code:
-                                <br>
-                                Capital city:
-                                <br>
-                                Region:
-                                <br>
-                                Population:
-                                <br>
-                            </div>
-                            <div class="column is-one-quarter">
-                                {{country.alpha2Code}}
-                                <br>
-                                {{country.capital}}
-                                <br>
-                                {{country.region}}
-                                <br>
-                                {{country.population.toLocaleString('be')}}
-                                <br>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-                </modal>
-            </div>
-        </div>
 
+            <!--
+            render all the item of the list given by parent compoent
+            with child compoent list item
+            -->
+            <list-item class="column is-one-quarter"
+            v-for="(country, i) in paginatedList" v-bind:key="i"
+           :country="country" :i="i"
+            ></list-item>
+
+        </div>
         <hr>
 
+        <!--
+        the part with the page links
+        -->
         <div class="pageChanger columns"
         v-if="pageCount > 1"
         >
@@ -187,43 +158,6 @@ export default {
 <style scoped lang="sass">
 .countries
     min-height: 482px
-.country
-    cursor: help;
-    color: black
-    height: 200px
-    border: 2px solid #e8e8e8
-    &:hover
-        border-color: #00bf9d
-        color: #00bf9d
-    img.flag
-        -webkit-box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75);
-        box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75);
-        width: 100px
-    .name
-        font-size: 20px
-        text-decoration: underline overline
-        font-family: Quicksand
-
-.modals
-    height: 400px
-    padding: 10px
-    img.flag
-        -webkit-box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75);
-        box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75);
-        width: 200px
-
-    .title
-        color: white
-        background-color: #00bf9d
-        text-align: center;
-        font-size: 40px
-        font-weight: bold
-        font-family: Quicksand
-    .data-name
-        color: grey
-        font-weight: bold
     
 .button
     &:hover
