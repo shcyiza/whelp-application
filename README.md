@@ -13,7 +13,7 @@ Bulma
 for the application at 
 <a href="https://www.whelp.io" target="_blank">
 WHELP/Start-up Factory
-</a>
+</a>.
 
 ## Unassigned decisions I made
 
@@ -38,18 +38,17 @@ https://restcountries.eu/rest/v2/regionalbloc/eu
 everytime the EU page gets requested or 
 ```
 https://restcountries.eu/rest/v2/{service}?fields={field};{field};{field}
-
 ```
 For every search query.
 
-Note that it also everything works **offline** once the app is loaded!
+Note that it also everything works **offline** once the app is loaded besides flags and maps!
 
 _**See** 'src/store/index.js' **for more comments**_
 
 ### Flags and maps
 
 I've added the contries flags and maps.
-Because I though i had the time, I thought it was cool and like VUEX it enhance the UX.
+Because I had the time, I thought it was cool and like VUEX it enhances the UX.
 
 
 # Project setup
