@@ -15,10 +15,14 @@ export default new Vuex.Store({
         return region.acronym === "EU"
       }).length >= 1;
     }),
-    getSearchResult: state => (query) => {
-      state.countries.filter((country) => {
-        return country.name.toLowerCase().indexOf(query.toLowerCase()) >= 0
-      })
+    getSearchResult: (state) => (query) => {
+      if (query !== '' && query.length > 1) {
+        return state.countries.filter((country) => {
+          return country.name.toLowerCase().indexOf(query.toLowerCase()) >= 0
+        })
+      } else {
+        return []
+      }
     },
 
   },

@@ -3,12 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './vuex/store'
 
-// CSS framework
-import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
+// UI frameworks and components
+import VModal from 'vue-js-modal'
 
-Vue.use(Buefy)
-// end CCS framework
+Vue.use(VModal)
+  // CSS framework Stylesheets
+import 'buefy/dist/buefy.css'
+// end UI frameworks and components
 
 Vue.config.productionTip = false
 

@@ -1,13 +1,26 @@
 <script>
-    export default {
-        name: "WholeWorld"
+import Paginator from './Paginator'
+
+export default {
+    name: "WholeWorld",
+    components: {
+        Paginator
+    },
+    computed: {
+        countries() {
+            return this.$store.getters.getAllCountries
+        }
     }
+}
 </script>
 
 <template>
-    <h1>Whole World</h1>
+    <div>
+        <h1>All the countries</h1>
+        <br>
+        <paginator :list="countries" relatifPath="/"></paginator>
+    </div>
 </template>
 
-<style scoped>
-
+<style scoped lang="sass">
 </style>

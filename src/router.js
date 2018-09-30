@@ -8,9 +8,10 @@ Vue.use(Router)
 
 export default new Router({
   routes: [{
-      path: '/',
-      name: 'home',
-      component: WholeWorld
+      path: '/world',
+      name: 'world',
+      component: WholeWorld,
+      alias: '/'
     },
     {
       path: '/eu',
@@ -22,5 +23,14 @@ export default new Router({
       name: 'Search Countries',
       component: Search
     },
-  ]
+  ],
+  linkActiveClass: "active",
+  linkExactActiveClass: "exact",
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
